@@ -1,0 +1,51 @@
+# Node
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Build output
+dist/
+build/
+
+# Local env files
+.env
+.env.*
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# Mac system files
+.DS_Store
+
+# Coverage
+coverage/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# TypeScript
+*.tsbuildinfo
+
+# Playwright/test output
+playwright-report/
+
+# Vitest
+coverage/
+
+# Others
+*.local 
