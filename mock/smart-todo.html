@@ -19,10 +19,10 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             background: white;
-            border-radius: 0;
+            border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             overflow: hidden;
         }
@@ -60,7 +60,7 @@
             flex: 1;
             padding: 15px 20px;
             border: 1px solid #ddd;
-            border-radius: 0;
+            border-radius: 4px;
             font-size: 16px;
             transition: all 0.3s ease;
         }
@@ -76,7 +76,7 @@
             background: linear-gradient(135deg, #5a5a5a 0%, #3a3a3a 100%);
             color: white;
             border: none;
-            border-radius: 0;
+            border-radius: 4px;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
@@ -89,81 +89,233 @@
             box-shadow: 0 10px 20px rgba(90, 90, 90, 0.3);
         }
 
-        .status {
-            text-align: center;
-            padding: 10px;
-            border-radius: 0;
-            margin-top: 15px;
-            display: none;
-        }
-
-        .status.generating {
-            background: #f5f5f5;
-            color: #333;
-            display: block;
-        }
-
         .todo-tree {
             padding: 30px;
         }
 
-        .todo-level {
-            margin-bottom: 30px;
+        /* 目標カードのスタイル */
+        .goal-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 20px 18px 18px 18px;
+            margin: 24px 0;
+            box-shadow: none;
+            display: block;
         }
 
-        .level-title {
-            font-size: 1.3em;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #333;
+        .goal-header {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .goal-title {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #444;
+            letter-spacing: 0.01em;
+            text-align: left;
+        }
+
+        .goal-meta {
             display: flex;
             align-items: center;
-            gap: 10px;
+            width: 100%;
+            flex: 1;
+            min-width: 0;
+            flex-wrap: nowrap;
         }
 
-        .todo-item {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 0;
-            padding: 20px;
-            margin-bottom: 15px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .todo-item:hover {
-            background: #f0f0f0;
-            border-color: #666;
-            transform: translateX(5px);
-        }
-
-        .todo-item.completed {
-            background: #e8e8e8;
-            border-color: #666;
-            opacity: 0.7;
-        }
-
-        .todo-content {
+        .goal-meta-content {
             display: flex;
             align-items: center;
             gap: 15px;
+            min-width: 0;
         }
 
-        .todo-checkbox {
+        .goal-actions {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .action-button {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .edit-button {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .delete-button {
+            background: #ffe5e5;
+            color: #d63031;
+        }
+
+        .add-button {
+            background: #e5f6e5;
+            color: #27ae60;
+        }
+
+        .action-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .date-input {
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .reason-section {
+            margin-top: 10px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .reason-title {
+            font-weight: 500;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .reason-content {
+            line-height: 1.4;
+        }
+
+        .category-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .action-actions {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
+        }
+
+        .action-card {
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            padding: 12px;
+            margin: 10px 0 10px 40px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .action-main {
+            flex: 1;
+        }
+
+        .action-header {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .action-title {
+            font-size: 1em;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .action-meta {
+            display: flex;
+            gap: 10px;
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .date-picker {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .date-picker input {
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .date-picker select {
+            padding: 4px 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .goal-progress {
+            margin: 15px 0;
+        }
+
+        /* 中分類カードのスタイル */
+        .category-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0 15px 20px;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .category-title {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: #444;
+        }
+
+        .category-progress {
+            margin-right: 15px;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* アクションカードのスタイル */
+        .action-checkbox {
             width: 20px;
             height: 20px;
             border: 2px solid #ddd;
-            border-radius: 0;
+            border-radius: 4px;
             cursor: pointer;
             position: relative;
         }
 
-        .todo-checkbox.checked {
+        .action-checkbox.checked {
             background: #666;
             border-color: #666;
         }
 
-        .todo-checkbox.checked::after {
+        .action-checkbox.checked::after {
             content: '✓';
             color: white;
             position: absolute;
@@ -173,59 +325,41 @@
             font-size: 12px;
         }
 
-        .todo-text {
-            flex: 1;
-            font-size: 16px;
-            line-height: 1.5;
-        }
-
-        .todo-item.completed .todo-text {
-            text-decoration: line-through;
-            color: #666;
-        }
-
-        .smart-badge {
-            background: #f0f0f0;
-            color: #333;
-            padding: 4px 8px;
-            border-radius: 0;
-            font-size: 12px;
-            font-weight: 600;
-            margin-left: 10px;
-        }
-
-        .progress-section {
-            background: #f8f9fa;
-            padding: 20px 30px;
-            border-top: 1px solid #eee;
-        }
-
-        .progress-title {
-            font-size: 1.1em;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #333;
-        }
-
         .progress-bar {
             background: #e9ecef;
             height: 8px;
-            border-radius: 0;
+            border-radius: 4px;
             overflow: hidden;
-            margin-bottom: 10px;
+            margin: 10px 0;
         }
 
         .progress-fill {
             background: linear-gradient(90deg, #666 0%, #888 100%);
             height: 100%;
-            border-radius: 0;
+            border-radius: 4px;
             transition: width 0.5s ease;
         }
 
-        .progress-text {
-            text-align: center;
-            color: #666;
-            font-size: 14px;
+        .priority-badge {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .priority-high {
+            background: #ffe5e5;
+            color: #d63031;
+        }
+
+        .priority-medium {
+            background: #fff3e0;
+            color: #e17055;
+        }
+
+        .priority-low {
+            background: #e5f6e5;
+            color: #27ae60;
         }
 
         .empty-state {
@@ -248,19 +382,101 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @media (max-width: 600px) {
-            .goal-input {
+        /* アイコン用 */
+        .icon-btn {
+            background: none;
+            border: none;
+            padding: 4px;
+            margin: 0 2px;
+            cursor: pointer;
+            font-size: 1.2em;
+            color: #666;
+            transition: color 0.2s;
+        }
+        .icon-btn:hover {
+            color: #d63031;
+        }
+        .priority-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
+        .priority-high-icon {
+            background: #d63031;
+        }
+        .priority-medium-icon {
+            background: #e17055;
+        }
+        .priority-low-icon {
+            background: #27ae60;
+        }
+        .goal-ops {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .goal-ops .goal-date {
+            font-size: 0.95em;
+            color: #666;
+            margin-right: 4px;
+        }
+        .goal-ops .goal-detail-btn {
+            font-size: 1.3em;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #888;
+            margin-left: 4px;
+        }
+        .goal-ops .goal-detail-btn:hover {
+            color: #333;
+        }
+        .goal-detail-panel {
+            display: none;
+            position: absolute;
+            right: 20px;
+            top: 50px;
+            background: #fff;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            padding: 12px 18px;
+            z-index: 10;
+            min-width: 180px;
+        }
+        .goal-detail-panel.active {
+            display: block;
+        }
+        @media (max-width: 700px) {
+            .goal-header {
                 flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
             }
-            
-            .container {
-                margin: 10px;
-                border-radius: 0;
+            .goal-ops {
+                width: 100%;
+                justify-content: flex-start;
             }
-            
-            .header, .input-section, .todo-tree {
-                padding: 20px;
+            .goal-detail-panel {
+                right: 10px;
+                top: 60px;
             }
+        }
+        .delete-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            color: #bbb;
+            margin-left: auto;
+            padding: 2px 6px;
+            transition: color 0.2s;
+        }
+        .delete-btn:hover {
+            color: #d63031;
         }
     </style>
 </head>
@@ -268,217 +484,135 @@
     <div class="container">
         <div class="header">
             <h1>SMART Todo</h1>
-            <p>目標を入力すると、AIが達成可能なステップに分解します</p>
+            <p>目標達成のためのタスク管理</p>
         </div>
 
         <div class="input-section">
             <div class="goal-input">
-                <input type="text" id="goalInput" placeholder="例: ダイエットする、英語を話せるようになる、副業を始める..." />
-                <button class="generate-btn" onclick="generateTodos()">
-                    <span id="btnText">分解する</span>
-                </button>
-            </div>
-            <div class="status" id="status">
-                AIが目標を分析中...しばらくお待ちください
+                <input type="text" placeholder="新しい目標を入力してください（例：ダイエット）">
+                <button class="generate-btn">目標を生成</button>
             </div>
         </div>
 
-        <div class="todo-tree" id="todoTree">
-            <div class="empty-state">
-                <h3>目標を入力してください</h3>
-                <p>AIが自動的に実行可能なステップに分解します</p>
+        <div class="todo-tree">
+            <!-- 目標カード1: ダイエット -->
+            <div class="goal-card">
+                <div class="goal-header">
+                    <span class="goal-title">ダイエット</span>
+                    <button class="delete-btn" title="削除">✕</button>
+                </div>
+                <!-- 中分類カード: 食事管理 -->
+                <div class="category-card">
+                    <div class="category-header">
+                        <h3 class="category-title">食事管理</h3>
+                        <button class="delete-btn" title="削除">✕</button>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-checkbox"></div>
+                        <div class="action-main">
+                            <div class="action-header">
+                                <div class="action-title">毎日体重を記録する</div>
+                                <button class="delete-btn" title="削除">✕</button>
+                            </div>
+                            <div class="reason-section">
+                                <div class="reason-title">理由・補足</div>
+                                <div class="reason-content">
+                                    体重の変化を記録することで、食事や運動の効果を客観的に把握できます。
+                                    また、記録を続けることでモチベーションの維持にも繋がります。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-checkbox checked"></div>
+                        <div class="action-main">
+                            <div class="action-header">
+                                <div class="action-title">1日3食を規則正しく食べる</div>
+                                <button class="delete-btn" title="削除">✕</button>
+                            </div>
+                            <div class="reason-section">
+                                <div class="reason-title">理由・補足</div>
+                                <div class="reason-content">
+                                    規則正しい食事は代謝を整え、脂肪燃焼を促進します。
+                                    また、空腹感を抑えることで間食を防ぎ、カロリーコントロールが容易になります。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 中分類カード: 運動習慣 -->
+                <div class="category-card">
+                    <div class="category-header">
+                        <h3 class="category-title">運動習慣</h3>
+                        <button class="delete-btn" title="削除">✕</button>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-checkbox"></div>
+                        <div class="action-main">
+                            <div class="action-header">
+                                <div class="action-title">週3回30分の有酸素運動</div>
+                                <button class="delete-btn" title="削除">✕</button>
+                            </div>
+                            <div class="reason-section">
+                                <div class="reason-title">理由・補足</div>
+                                <div class="reason-content">
+                                    有酸素運動は脂肪燃焼に効果的で、心肺機能も向上させます。
+                                    30分という時間は、脂肪燃焼が始まるタイミングに合わせた設定です。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-
-        <div class="progress-section" id="progressSection" style="display: none;">
-            <div class="progress-title">全体の進捗</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            <!-- 目標カード2: 英語学習 -->
+            <div class="goal-card">
+                <div class="goal-header">
+                    <span class="goal-title">英語を話せるようになる</span>
+                    <button class="delete-btn" title="削除">✕</button>
+                </div>
+                <!-- 中分類カード: 語彙力強化 -->
+                <div class="category-card">
+                    <div class="category-header">
+                        <h3 class="category-title">語彙力強化</h3>
+                        <button class="delete-btn" title="削除">✕</button>
+                    </div>
+                    <div class="action-card">
+                        <div class="action-checkbox checked"></div>
+                        <div class="action-main">
+                            <div class="action-header">
+                                <div class="action-title">毎日20個の新しい英単語を覚える</div>
+                                <button class="delete-btn" title="削除">✕</button>
+                            </div>
+                            <div class="reason-section">
+                                <div class="reason-title">理由・補足</div>
+                                <div class="reason-content">
+                                    語彙力は英語力の基礎となります。毎日20個の単語を覚えることで、
+                                    1年で約7,000語の語彙を習得できます。これは日常会話に必要な語彙数に相当します。
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="progress-text" id="progressText">0% 完了</div>
         </div>
     </div>
 
     <script>
-        const sampleTodos = {
-            "ダイエットする": {
-                level1: [
-                    { text: "食事管理を行う", completed: false },
-                    { text: "運動習慣を身につける", completed: false },
-                    { text: "生活習慣を改善する", completed: false }
-                ],
-                level2: [
-                    { text: "1日の糖質摂取量を20g以下にする", completed: false, smart: true },
-                    { text: "毎日の摂取カロリーを1500kcal以下に制限する", completed: false, smart: true },
-                    { text: "スクワット10回×3セットを毎日行う", completed: false, smart: true },
-                    { text: "週3回、30分間のウォーキングをする", completed: false, smart: true },
-                    { text: "毎日23時までに就寝する", completed: false, smart: true },
-                    { text: "1日8杯以上の水を飲む", completed: false, smart: true }
-                ]
-            },
-            "英語を話せるようになる": {
-                level1: [
-                    { text: "基礎的な語彙力を身につける", completed: false },
-                    { text: "文法の基礎を理解する", completed: false },
-                    { text: "リスニング力を向上させる", completed: false },
-                    { text: "スピーキングの練習をする", completed: false }
-                ],
-                level2: [
-                    { text: "毎日20個の新しい英単語を覚える", completed: false, smart: true },
-                    { text: "週5日、英語の文法問題を10問解く", completed: false, smart: true },
-                    { text: "毎日30分間、英語のポッドキャストを聞く", completed: false, smart: true },
-                    { text: "週2回、オンライン英会話を25分間受講する", completed: false, smart: true },
-                    { text: "毎週末、英語の映画を1本字幕なしで観る", completed: false, smart: true }
-                ]
-            },
-            "副業を始める": {
-                level1: [
-                    { text: "スキルと市場を分析する", completed: false },
-                    { text: "副業の種類を決定する", completed: false },
-                    { text: "実際にサービスを開始する", completed: false },
-                    { text: "収益化を図る", completed: false }
-                ],
-                level2: [
-                    { text: "自分のスキルセットを3つの分野で棚卸しする", completed: false, smart: true },
-                    { text: "2週間以内に副業のジャンルを1つ決定する", completed: false, smart: true },
-                    { text: "1ヶ月以内にサービス提供プラットフォームに登録する", completed: false, smart: true },
-                    { text: "最初の案件を3ヶ月以内に獲得する", completed: false, smart: true },
-                    { text: "月収5万円を6ヶ月以内に達成する", completed: false, smart: true }
-                ]
-            }
-        };
-
-        function generateTodos() {
-            const input = document.getElementById('goalInput');
-            const goal = input.value.trim();
-            
-            if (!goal) {
-                alert('目標を入力してください');
-                return;
-            }
-
-            // ボタンとステータスの更新
-            const btnText = document.getElementById('btnText');
-            const status = document.getElementById('status');
-            
-            btnText.textContent = '分析中...';
-            status.classList.add('generating');
-            
-            // 2秒後にTodoを表示（AIの処理をシミュレート）
-            setTimeout(() => {
-                displayTodos(goal);
-                btnText.textContent = '分解する';
-                status.classList.remove('generating');
-            }, 2000);
+    function toggleGoalDetail(btn) {
+      const panel = btn.nextElementSibling;
+      panel.classList.toggle('active');
+      // 他のパネルを閉じる
+      document.querySelectorAll('.goal-detail-panel').forEach(p => {
+        if (p !== panel) p.classList.remove('active');
+      });
+    }
+    window.addEventListener('click', function(e) {
+      document.querySelectorAll('.goal-detail-panel').forEach(panel => {
+        if (!panel.contains(e.target) && !panel.previousElementSibling.contains(e.target)) {
+          panel.classList.remove('active');
         }
-
-        function displayTodos(goal) {
-            const todoTree = document.getElementById('todoTree');
-            const progressSection = document.getElementById('progressSection');
-            
-            // サンプルデータから該当する目標を探す
-            let todos = sampleTodos[goal];
-            
-            // 該当しない場合はデフォルトのサンプルを使用
-            if (!todos) {
-                todos = sampleTodos["ダイエットする"];
-            }
-
-            let html = '';
-            
-            // レベル1（中分類）
-            if (todos.level1) {
-                html += `
-                    <div class="todo-level fade-in">
-                        <div class="level-title level-1">
-                            中分類目標
-                        </div>
-                `;
-                
-                todos.level1.forEach((todo, index) => {
-                    html += `
-                        <div class="todo-item ${todo.completed ? 'completed' : ''}" onclick="toggleTodo(this, 1, ${index})">
-                            <div class="todo-content">
-                                <div class="todo-checkbox ${todo.completed ? 'checked' : ''}"></div>
-                                <div class="todo-text">${todo.text}</div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                html += '</div>';
-            }
-
-            // レベル2（具体的なアクション）
-            if (todos.level2) {
-                html += `
-                    <div class="todo-level fade-in">
-                        <div class="level-title level-2">
-                            具体的なアクション（SMART目標）
-                        </div>
-                `;
-                
-                todos.level2.forEach((todo, index) => {
-                    html += `
-                        <div class="todo-item ${todo.completed ? 'completed' : ''}" onclick="toggleTodo(this, 2, ${index})">
-                            <div class="todo-content">
-                                <div class="todo-checkbox ${todo.completed ? 'checked' : ''}"></div>
-                                <div class="todo-text">
-                                    ${todo.text}
-                                    ${todo.smart ? '<span class="smart-badge">SMART</span>' : ''}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                html += '</div>';
-            }
-
-            todoTree.innerHTML = html;
-            progressSection.style.display = 'block';
-            updateProgress();
-        }
-
-        function toggleTodo(element, level, index) {
-            const checkbox = element.querySelector('.todo-checkbox');
-            const isCompleted = checkbox.classList.contains('checked');
-            
-            if (isCompleted) {
-                checkbox.classList.remove('checked');
-                element.classList.remove('completed');
-            } else {
-                checkbox.classList.add('checked');
-                element.classList.add('completed');
-            }
-            
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const allTodos = document.querySelectorAll('.todo-item');
-            const completedTodos = document.querySelectorAll('.todo-item.completed');
-            
-            if (allTodos.length === 0) return;
-            
-            const percentage = Math.round((completedTodos.length / allTodos.length) * 100);
-            
-            document.getElementById('progressFill').style.width = percentage + '%';
-            document.getElementById('progressText').textContent = `${percentage}% 完了 (${completedTodos.length}/${allTodos.length}個)`;
-        }
-
-        // エンターキーでの送信
-        document.getElementById('goalInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                generateTodos();
-            }
-        });
-
-        // 初期表示用のサンプル
-        setTimeout(() => {
-            document.getElementById('goalInput').value = 'ダイエットする';
-            generateTodos();
-        }, 1000);
+      });
+    });
     </script>
 </body>
 </html>
