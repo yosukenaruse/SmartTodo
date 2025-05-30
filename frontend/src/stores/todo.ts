@@ -7,36 +7,71 @@ interface Todo {
   smart?: boolean
 }
 
-interface TodoLevel {
-  level1: Todo[]
-  level2: Todo[]
+interface Subtask extends Todo {
+  smart: boolean
+}
+
+interface BreakdownItem {
+  id: number
+  text: string
+  completed: boolean
+  subtasks: Subtask[]
+}
+
+interface TodoResponse {
+  goal: string
+  breakdown: BreakdownItem[]
 }
 
 export const useTodoStore = defineStore('todo', {
   state: () => ({
     todos: [] as Todo[][],
-    sampleTodos: {
-      "ダイエットする": {
-        level1: [
-          { id: 1, text: "食事管理を行う", completed: false },
-          { id: 2, text: "運動習慣を身につける", completed: false },
-          { id: 3, text: "生活習慣を改善する", completed: false }
-        ],
-        level2: [
-          { id: 4, text: "1日の糖質摂取量を20g以下にする", completed: false, smart: true },
-          { id: 5, text: "毎日の摂取カロリーを1500kcal以下に制限する", completed: false, smart: true },
-          { id: 6, text: "スクワット10回×3セットを毎日行う", completed: false, smart: true },
-          { id: 7, text: "週3回、30分間のウォーキングをする", completed: false, smart: true },
-          { id: 8, text: "毎日23時までに就寝する", completed: false, smart: true },
-          { id: 9, text: "1日8杯以上の水を飲む", completed: false, smart: true }
-        ]
-      }
-    } as Record<string, TodoLevel>
+    currentGoal: '',
+    isLoading: false
   }),
   actions: {
-    generateTodos(goal: string) {
-      const selectedTodos = this.sampleTodos[goal] || this.sampleTodos["ダイエットする"]
-      this.todos = [selectedTodos.level1, selectedTodos.level2]
+    async generateTodos(goal: string) {
+      this.isLoading = true
+      try {
+        const response = await fetch('http://localhost:3000/api/todos/breakdown', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ goal })
+        })
+        
+        if (!response.ok) {
+          throw new Error('API request failed')
+        }
+
+        const data: TodoResponse = await response.json()
+        this.currentGoal = data.goal
+        
+        // APIレスポンスの形式に合わせてデータを変換
+        const level1 = data.breakdown.map(item => ({
+          id: item.id,
+          text: item.text,
+          completed: item.completed
+        }))
+        
+        const level2 = data.breakdown.flatMap(item => 
+          item.subtasks.map(subtask => ({
+            id: subtask.id,
+            text: subtask.text,
+            completed: subtask.completed,
+            smart: subtask.smart
+          }))
+        )
+        
+        this.todos = [level1, level2]
+      } catch (error) {
+        console.error('Failed to fetch todos:', error)
+        // エラー時のフォールバック
+        this.todos = []
+      } finally {
+        this.isLoading = false
+      }
     },
     toggleTodo(levelIndex: number, todoIndex: number) {
       this.todos[levelIndex][todoIndex].completed = !this.todos[levelIndex][todoIndex].completed

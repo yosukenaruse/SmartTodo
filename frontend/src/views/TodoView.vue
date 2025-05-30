@@ -13,11 +13,11 @@
           @keypress.enter="generateTodos"
           placeholder="例: ダイエットする、英語を話せるようになる、副業を始める..." 
         />
-        <button class="generate-btn" @click="generateTodos">
-          <span>{{ isGenerating ? '分析中...' : '分解する' }}</span>
+        <button class="generate-btn" @click="generateTodos" :disabled="todoStore.isLoading">
+          <span>{{ todoStore.isLoading ? '分析中...' : '分解する' }}</span>
         </button>
       </div>
-      <div class="status" :class="{ generating: isGenerating }">
+      <div class="status" :class="{ generating: todoStore.isLoading }">
         AIが目標を分析中...しばらくお待ちください
       </div>
     </div>
@@ -71,21 +71,14 @@ import { useTodoStore } from '@/stores'
 
 const todoStore = useTodoStore()
 const goal = ref('')
-const isGenerating = ref(false)
 
-const generateTodos = () => {
+const generateTodos = async () => {
   if (!goal.value.trim()) {
     alert('目標を入力してください')
     return
   }
 
-  isGenerating.value = true
-
-  // 2秒後にTodoを表示（AIの処理をシミュレート）
-  setTimeout(() => {
-    todoStore.generateTodos(goal.value)
-    isGenerating.value = false
-  }, 2000)
+  await todoStore.generateTodos(goal.value)
 }
 
 const toggleTodo = (levelIndex: number, todoIndex: number) => {
