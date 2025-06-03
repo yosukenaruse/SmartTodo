@@ -1,65 +1,38 @@
 <template>
-  <div class="container">
-    <div class="header">
-      <h1>SMART Todo</h1>
-      <p>目標を入力すると、AIが達成可能なステップに分解します</p>
-    </div>
-
-    <div class="input-section">
-      <div class="goal-input">
-        <input 
-          type="text" 
-          v-model="goal" 
-          @keypress.enter="generateTodos"
-          placeholder="例: ダイエットする、英語を話せるようになる、副業を始める..." 
-        />
-        <button class="generate-btn" @click="generateTodos" :disabled="todoStore.isLoading">
-          <span>{{ todoStore.isLoading ? '分析中...' : '分解する' }}</span>
-        </button>
+  <div class="mock-root">
+    <div class="mock-card">
+      <div class="mock-header">
+        <h1>SMART Todo</h1>
+        <p>目標達成のためのタスク管理</p>
       </div>
-      <div class="status" :class="{ generating: todoStore.isLoading }">
-        AIが目標を分析中...しばらくお待ちください
+      <div class="mock-input-row">
+        <input class="mock-goal-input" v-model="goal" placeholder="新しい目標を入力してください（例：ダイエット）" />
+        <button class="mock-generate-btn" @click="generateTodos">目標を生成</button>
       </div>
-    </div>
-
-    <div class="todo-tree">
-      <template v-if="todoStore.todos.length === 0">
-        <div class="empty-state">
-          <h3>目標を入力してください</h3>
-          <p>AIが自動的に実行可能なステップに分解します</p>
-        </div>
-      </template>
-      <template v-else>
-        <div v-for="(level, index) in todoStore.todos" :key="index" class="todo-level fade-in">
-          <div class="level-title">
-            {{ index === 0 ? '中分類目標' : '具体的なアクション（SMART目標）' }}
+      <div v-if="todoStore.todos.length > 0" class="mock-goal-list">
+        <div class="mock-goal-card">
+          <div class="mock-goal-title-row">
+            <span class="mock-goal-title">{{ todoStore.currentGoal }}</span>
+            <button class="mock-close-btn">✕</button>
           </div>
-          <div 
-            v-for="(todo, todoIndex) in level" 
-            :key="todo.id"
-            class="todo-item"
-            :class="{ completed: todo.completed }"
-            @click="toggleTodo(index, todoIndex)"
-          >
-            <div class="todo-content">
-              <div class="todo-checkbox" :class="{ checked: todo.completed }"></div>
-              <div class="todo-text">
-                {{ todo.text }}
-                <span v-if="todo.smart" class="smart-badge">SMART</span>
+          <div v-for="(breakdown, bIdx) in todoStore.todos" :key="breakdown.id" class="mock-breakdown-card">
+            <div class="mock-breakdown-title-row">
+              <span class="mock-breakdown-title">{{ breakdown.text }}</span>
+              <button class="mock-close-btn">✕</button>
+            </div>
+            <div v-for="(action, aIdx) in breakdown.subtasks" :key="action.id" class="mock-action-card" :class="{ completed: action.completed }">
+              <div class="mock-action-header">
+                <input type="checkbox" v-model="action.completed" @change="toggleTodo(bIdx, aIdx)" />
+                <span class="mock-action-title">{{ action.text }}</span>
+                <button class="mock-close-btn">✕</button>
+              </div>
+              <div class="mock-reason-box">
+                <div class="mock-reason-title">理由・補足</div>
+                <div class="mock-reason-content">{{ action.reason }}</div>
               </div>
             </div>
           </div>
         </div>
-      </template>
-    </div>
-
-    <div v-if="todoStore.todos.length > 0" class="progress-section">
-      <div class="progress-title">全体の進捗</div>
-      <div class="progress-bar">
-        <div class="progress-fill" :style="{ width: todoStore.progressPercentage + '%' }"></div>
-      </div>
-      <div class="progress-text">
-        {{ todoStore.progressPercentage }}% 完了 ({{ todoStore.completedCount }}/{{ todoStore.totalCount }}個)
       </div>
     </div>
   </div>
@@ -77,269 +50,170 @@ const generateTodos = async () => {
     alert('目標を入力してください')
     return
   }
-
   await todoStore.generateTodos(goal.value)
 }
 
-const toggleTodo = (levelIndex: number, todoIndex: number) => {
-  todoStore.toggleTodo(levelIndex, todoIndex)
+const toggleTodo = (breakdownIndex: number, subtaskIndex: number) => {
+  todoStore.toggleTodo(breakdownIndex, subtaskIndex)
 }
 </script>
 
 <style scoped>
-:global(body) {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(135deg, #4a4a4a 0%, #2c2c2c 100%);
+.mock-root {
   min-height: 100vh;
-  padding: 0;
-  margin: 0;
+  background: linear-gradient(135deg, #4a4a4a 0%, #2c2c2c 100%);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 0;
 }
-
-.container {
-  max-width: 1000px;
-  margin: 40px auto;
-  background: white;
+.mock-card {
+  background: #fff;
   border-radius: 0;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  overflow: hidden;
-  padding-bottom: 40px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.13);
+  padding: 0 0 32px 0;
+  min-width: 700px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
 }
-
-.header {
+.mock-header {
+  text-align: center;
   background: linear-gradient(135deg, #6c6c6c 0%, #4a4a4a 100%);
   color: white;
-  padding: 30px;
-  text-align: center;
+  border-radius: 0;
+  padding: 38px 0 24px 0;
+  margin-bottom: 32px;
 }
-
-.header h1 {
+.mock-header h1 {
   font-size: 2.2em;
-  margin-bottom: 10px;
-  font-weight: 300;
+  font-weight: 600;
+  margin-bottom: 8px;
+  letter-spacing: 0.04em;
 }
-
-.header p {
-  opacity: 0.9;
-  font-size: 1.1em;
+.mock-header p {
+  color: #e0e0e0;
+  font-size: 1.13em;
+  margin-bottom: 0;
 }
-
-.input-section {
-  padding: 30px;
-  border-bottom: 1px solid #eee;
-}
-
-.goal-input {
+.mock-input-row {
   display: flex;
-  gap: 15px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin: 0 32px 32px 32px;
 }
-
-.goal-input input {
+.mock-goal-input {
   flex: 1;
-  padding: 15px 20px;
+  padding: 14px 18px;
   border: 1px solid #ddd;
   border-radius: 0;
-  font-size: 16px;
-  transition: all 0.3s ease;
+  font-size: 1.1em;
+  background: #fff;
 }
-
-.goal-input input:focus {
-  outline: none;
-  border-color: #666;
-  box-shadow: 0 0 0 3px rgba(102, 102, 102, 0.1);
-}
-
-.generate-btn {
-  padding: 15px 30px;
-  background: linear-gradient(135deg, #5a5a5a 0%, #3a3a3a 100%);
-  color: white;
+.mock-generate-btn {
+  background: #222;
+  color: #fff;
   border: none;
   border-radius: 0;
-  font-size: 16px;
+  padding: 0 28px;
+  font-size: 1.1em;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
+  transition: background 0.2s;
 }
-
-.generate-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(90, 90, 90, 0.3);
+.mock-generate-btn:hover {
+  background: #444;
 }
-
-.status {
-  text-align: center;
-  padding: 10px;
+.mock-goal-list {
+  margin-top: 16px;
+  margin-left: 32px;
+  margin-right: 32px;
+}
+.mock-goal-card {
+  background: #fafbfc;
+  border: 1.5px solid #e0e0e0;
   border-radius: 0;
-  margin-top: 15px;
-  display: none;
+  padding: 24px 24px 18px 24px;
+  margin-bottom: 32px;
 }
-
-.status.generating {
-  background: #f5f5f5;
-  color: #333;
-  display: block;
+.mock-goal-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
 }
-
-.todo-tree {
-  padding: 30px;
-}
-
-.todo-level {
-  margin-bottom: 30px;
-}
-
-.level-title {
+.mock-goal-title {
   font-size: 1.3em;
   font-weight: 600;
-  margin-bottom: 15px;
+  color: #222;
+}
+.mock-close-btn {
+  background: none;
+  border: none;
+  color: #bbb;
+  font-size: 1.3em;
+  cursor: pointer;
+  margin-left: 8px;
+  transition: color 0.2s;
+}
+.mock-close-btn:hover {
+  color: #d63031;
+}
+.mock-breakdown-card {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 0;
+  padding: 18px 18px 10px 18px;
+  margin-bottom: 18px;
+}
+.mock-breakdown-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.mock-breakdown-title {
+  font-size: 1.1em;
+  font-weight: 500;
   color: #333;
+}
+.mock-action-card {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 0;
+  padding: 14px 16px 10px 16px;
+  margin-bottom: 12px;
+}
+.mock-action-card.completed {
+  opacity: 0.6;
+}
+.mock-action-header {
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 8px;
 }
-
-.todo-item {
-  background: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 0;
-  padding: 20px;
-  margin-bottom: 15px;
-  transition: all 0.3s ease;
-  cursor: pointer;
-}
-
-.todo-item:hover {
-  background: #f0f0f0;
-  border-color: #666;
-  transform: translateX(5px);
-}
-
-.todo-item.completed {
-  background: #e8e8e8;
-  border-color: #666;
-  opacity: 0.7;
-}
-
-.todo-content {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.todo-checkbox {
-  width: 20px;
-  height: 20px;
-  border: 2px solid #ddd;
-  border-radius: 0;
-  cursor: pointer;
-  position: relative;
-}
-
-.todo-checkbox.checked {
-  background: #666;
-  border-color: #666;
-}
-
-.todo-checkbox.checked::after {
-  content: '✓';
-  color: white;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 12px;
-}
-
-.todo-text {
+.mock-action-title {
+  font-size: 1em;
+  font-weight: 500;
+  color: #222;
   flex: 1;
-  font-size: 16px;
-  line-height: 1.5;
 }
-
-.todo-item.completed .todo-text {
-  text-decoration: line-through;
-  color: #666;
-}
-
-.smart-badge {
-  background: #f0f0f0;
-  color: #333;
-  padding: 4px 8px;
+.mock-reason-box {
+  background: #f4f4f4;
+  border: 1px solid #e0e0e0;
   border-radius: 0;
-  font-size: 12px;
+  padding: 10px 12px;
+  margin-top: 4px;
+}
+.mock-reason-title {
+  font-size: 0.95em;
+  color: #888;
   font-weight: 600;
-  margin-left: 10px;
+  margin-bottom: 2px;
 }
-
-.progress-section {
-  background: #f8f9fa;
-  padding: 20px 30px;
-  border-top: 1px solid #eee;
-}
-
-.progress-title {
-  font-size: 1.1em;
-  font-weight: 600;
-  margin-bottom: 15px;
-  color: #333;
-}
-
-.progress-bar {
-  background: #e9ecef;
-  height: 8px;
-  border-radius: 0;
-  overflow: hidden;
-  margin-bottom: 10px;
-}
-
-.progress-fill {
-  background: linear-gradient(90deg, #666 0%, #888 100%);
-  height: 100%;
-  border-radius: 0;
-  transition: width 0.5s ease;
-}
-
-.progress-text {
-  text-align: center;
-  color: #666;
-  font-size: 14px;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 50px;
-  color: #999;
-}
-
-.empty-state h3 {
-  margin-bottom: 10px;
-  font-weight: 400;
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 600px) {
-  .goal-input {
-    flex-direction: column;
-  }
-  
-  .container {
-    max-width: 98vw;
-    margin: 10px;
-    border-radius: 0;
-    padding-bottom: 20px;
-  }
-  
-  .header, .input-section, .todo-tree {
-    padding: 20px;
-  }
+.mock-reason-content {
+  font-size: 0.98em;
+  color: #444;
+  line-height: 1.6;
 }
 </style> 
