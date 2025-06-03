@@ -59,9 +59,6 @@ export const useTodoStore = defineStore('todo', {
       } finally {
         this.isLoading = false
       }
-    },
-    toggleTodo(breakdownIndex: number, subtaskIndex: number) {
-      this.todos[breakdownIndex].subtasks[subtaskIndex].completed = !this.todos[breakdownIndex].subtasks[subtaskIndex].completed
     }
   },
   getters: {

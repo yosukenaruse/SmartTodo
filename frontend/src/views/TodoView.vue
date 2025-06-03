@@ -22,7 +22,7 @@
             </div>
             <div v-for="(action, aIdx) in breakdown.subtasks" :key="action.id" class="mock-action-card" :class="{ completed: action.completed }">
               <div class="mock-action-header">
-                <input type="checkbox" v-model="action.completed" @change="toggleTodo(bIdx, aIdx)" />
+                <input type="checkbox" v-model="action.completed" />
                 <span class="mock-action-title">{{ action.text }}</span>
                 <button class="mock-close-btn">✕</button>
               </div>
@@ -51,10 +51,6 @@ const generateTodos = async () => {
     return
   }
   await todoStore.generateTodos(goal.value)
-}
-
-const toggleTodo = (breakdownIndex: number, subtaskIndex: number) => {
-  todoStore.toggleTodo(breakdownIndex, subtaskIndex)
 }
 </script>
 
